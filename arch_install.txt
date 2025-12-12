@@ -1,0 +1,143 @@
+# assumes you are connected to the internet (try pinging google)
+
+# apply swedish keyboard layout
+loadkeys sv-latin1
+
+# apply swedish timezone
+timedatectl set-ntp true
+ln -sf /usr/share/zoneinfo/Europe/Stockholm /etc/localtime
+hwclock --systohc
+
+# partition disk
+lsblk -o name,size,model # check which disk 
+cfdisk /dev/xxx # /dev/sda1, /dev/nvme0n1 etc.
+# Make partitions (remember to write changes!)
+1G EFI System
+rest Linux
+
+# format:
+mkfs.fat -F32 /dev/xxx1
+mkfs.ext4 /dev/xxx2
+
+# mount it
+mount /dev/xxx2 /mnt
+mkdir -p /mnt/boot
+mount /dev/xxx1 /mnt/boot
+
+# install base system (change zsh to bash or whatever you want)
+pacstrap /mnt base linux linux-firmware zsh vim networkmanager curl tmux openssh htop fastfetch git
+
+# fstab
+genfstab -U /mnt >> /mnt/etc/fstab
+
+# chroot the system
+arch-chroot /mnt
+
+# set mirror list
+curl -o /etc/pacman.d/mirrorlist https://archlinux.org/mirrorlist/all/
+vim /etc/pacman.d/mirrorlist # uncomment Sweden mirrors
+
+# set time zones
+ln -sf /usr/share/zoneinfo/Europe/Stockholm /etc/localtime
+hwclock --systohc
+
+# edit locale.gen
+# uncomment: 
+# en_US.UTF-8 UTF-8
+# sv_SE.UTF-8 UTF-8
+vim /etc/locale.gen
+
+# then generate
+locale-gen
+
+# store region settings
+echo "LANG=en_US.UTF-8" > /etc/locale.conf
+echo "KEYMAP=sv-latin1" > /etc/vconsole.conf
+
+# hostname
+echo "myhostname" > /etc/hostname 
+
+# edit /etc/hosts:
+127.0.0.1   localhost
+::1         localhost
+127.0.1.1   myhostname.localdomain myhostname
+
+# root password
+passwd
+
+# bootloader
+bootctl install
+
+# edit bootloader /boot/loader/loader.conf
+default arch
+timeout 3
+editor no
+
+# entry (mind the partition!!):
+cat > /boot/loader/entries/arch.conf <<EOF
+title   Arch Linux
+linux   /vmlinuz-linux
+initrd  /initramfs-linux.img
+options root=PARTUUID=$(blkid -s PARTUUID -o value /dev/sda2) rw
+EOF
+
+# create user
+useradd -m -G wheel -s /bin/zsh yourusername
+passwd yourusername
+
+# prepare sudo
+pacman -S sudo
+visudo # uncomment %wheel ALL=(ALL:ALL) ALL
+
+# disable root (just use sudo)
+passwd -l root
+
+# ssh
+pacman -S openssh
+systemctl enable sshd
+
+# microcode
+pacman -S amd-ucode # intel-ucode
+
+# enable networkmanager
+systemctl enable NetworkManager
+
+# nvidia graphics
+# from https://www.reddit.com/r/archlinux/comments/1h3qbk5/amd_vs_nvidia_in_2024_which_gpu_should_i_choose/
+pacman -S nvidia-open nvidia-utils nvidia-settings libva-nvidia-driver libva-utils opencl-nvidia
+
+# intel graphics
+pacman -S intel-media-driver libva-utils
+
+# audio (pipewire)
+pacman -S pipewire pipewire-audio pipewire-pulse pipewire-alsa wireplumber
+systemctl --user enable wireplumber
+
+# bluetooth
+pacman -S bluez bluez-utils
+systemctl enable bluetooth
+
+# enable trim (ssd)
+systemctl enable fstrim.timer
+
+# reboot!
+exit
+umount -R /mnt
+reboot
+
+###############################################################################
+
+# KDE Plasma (DE)
+
+sudo pacman -S noto-fonts noto-fonts-emoji noto-fonts-cjk \
+    sddm sddm-kcm plasma-desktop kdegraphics-thumbnailers \
+    ffmpeg ffmpegthumbs plasma-nm plasma-pa dolphin ghostty kate ark \
+    kdeplasma-addons kde-gtk-config breeze-gtk mpv vlc gwenview \
+    spectacle partitionmanager plasma-systemmonitor vlc flatpak-kcm \
+    qt6-imageformats kimageformats kdialog xdg-desktop-portal-gtk kscreen bluedevil
+
+sudo systemctl enable sddm
+
+### Install oh my zsh ###
+
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
