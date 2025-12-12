@@ -1,0 +1,2 @@
+# /Users/djs/Library/Application Support/com.mitchellh.ghostty/config
+shell-integration-features = sudo, ssh-terminfo, ssh-env
