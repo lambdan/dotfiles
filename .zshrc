@@ -21,6 +21,7 @@ tw () { streamlink twitch.tv/$@ best --player mpv;} # twitch viewer
 alias dtiso='node -e "console.log(new Date().toISOString())"' # print iso date
 alias dt=dtiso
 alias vim=nvim
+alias minify='node -e "console.log(JSON.stringify(JSON.parse(require(\"fs\").readFileSync(0,\"utf-8\"))));"'
 
 
 if [[ "$(uname)" == "Darwin" ]]; then
