@@ -67,3 +67,5 @@ nvm use 20 >/dev/null
 # cd = zoxide
 eval "$(zoxide init zsh --cmd cd)"
 
+export JAVA_HOME=/opt/homebrew/opt/openjdk@21/
+
