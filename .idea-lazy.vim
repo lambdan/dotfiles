@@ -153,8 +153,11 @@ nmap [q <Action>(GotoPreviousError)
 " Next Quickfix
 nmap ]q <Action>(GotoNextError)
 " Format
-nmap <leader>cf <Action>(Format)
-vmap <leader>cf <Action>(Format)
+" DJS fix -- Format does nothing... ReformatCode works though
+"nmap <leader>cf <Action>(Format)
+"vmap <leader>cf <Action>(Format)
+nmap <leader>cf <Action>(ReformatCode)
+vmap <leader>cf <Action>(ReformatCode)
 " Line Diagnostics
 nmap <leader>cd <Action>(ActivateProblemsViewToolWindow)
 " Next Diagnostic
