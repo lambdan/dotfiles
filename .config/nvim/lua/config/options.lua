@@ -3,3 +3,5 @@
 -- Add any additional options here
 --
 vim.g.ai_cmp = false
+
+vim.g.root_spec = { "lsp", { ".git", "lua", "build.sbt" }, "cwd" }
