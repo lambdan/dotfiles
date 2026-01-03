@@ -1,10 +1,15 @@
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
+
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
 if [[ "$(uname)" == "Darwin" ]]; then
 	# have a little Apple in the PS1 on macOS
 	ZSH_THEME="apple"
+else
+	ZSH_THEME="robbyrussell"
 fi
+
+
 # Uncomment one of the following lines to change the auto-update behavior
 # zstyle ':omz:update' mode disabled  # disable automatic updates
 # zstyle ':omz:update' mode auto      # update automatically without asking
@@ -27,10 +32,22 @@ alias minify='node -e "console.log(JSON.stringify(JSON.parse(require(\"fs\").rea
 if [[ "$(uname)" == "Darwin" ]]; then
 	# macOS specific
 	alias iclddrv='cd /Users/djs/Library/Mobile Documents/com~apple~CloudDocs'
-	pbjq() { pbpaste|jq; }
 	export PATH="$(brew --prefix)/opt/python@3.11/libexec/bin:$PATH"
 	export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
+  export JAVA_HOME=/opt/homebrew/opt/openjdk@21/
 fi
+
+
+if [[ "$(uname)" == "Linux" ]]; then
+	# Linux specific
+
+  # pbcopy/pbpaste equivalency
+  # sudo pacman -S xsel
+  alias pbcopy='xsel --clipboard --input'
+  alias pbpaste='xsel --clipboard --output'
+fi
+
+pbjq() { pbpaste|jq; }
 
 # ffprobe json output
 ffprobej() { ffprobe -v quiet -print_format json -show_format -show_streams $@ |jq;} 
@@ -49,7 +66,7 @@ venv() {
 
   if [[ ! -d "$venv_path"  ]]; then
       echo "No venv found in $venv_path — creating..."
-      python3.12 -m venv "$venv_path" || return 1
+      python3 -m venv "$venv_path" || return 1
   fi
 
   echo "Activating $venv_path"
@@ -62,10 +79,8 @@ source <(fzf --zsh)
 export ANSIBLE_HOST_KEY_CHECKING=False
 
 # default to node 20
-nvm use 20 >/dev/null
+nvm use 24 >/dev/null
 
 # cd = zoxide
 eval "$(zoxide init zsh --cmd cd)"
-
-export JAVA_HOME=/opt/homebrew/opt/openjdk@21/
 
