@@ -47,10 +47,10 @@ if [[ "$(uname)" == "Linux" ]]; then
   alias pbpaste='xsel --clipboard --output'
 
   # fix ghostty tilde key not working
-  # sudo pacman -S ibus
-  export GTK_IM_MODULE=ibus
-  export QT_IM_MODULE=ibus
-  export XMODIFIERS=@im=ibus
+  # sudo pacman -S fcitx5-im
+  export GTK_IM_MODULE=fcitx
+  export QT_IM_MODULE=fcitx
+  export XMODIFIERS=@im=fcitx
   #export GTK_IM_MODULE=simple
 fi
 
