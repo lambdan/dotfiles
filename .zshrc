@@ -62,7 +62,7 @@ ffprobej() { ffprobe -v quiet -print_format json -show_format -show_streams $@ |
 # adb screenshot to current date.png
 adbscrot() { 
         FILENAME="adb_$(date +"%Y-%m-%d_%H-%M-%S").png"
-        adb exec-out screncap -p > "$FILENAME"
+        adb exec-out screencap -p > "$FILENAME"
         echo "$FILENAME"
 }
 
