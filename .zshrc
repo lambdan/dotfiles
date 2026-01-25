@@ -52,6 +52,9 @@ if [[ "$(uname)" == "Linux" ]]; then
   export QT_IM_MODULE=fcitx
   export XMODIFIERS=@im=fcitx
   #export GTK_IM_MODULE=simple
+
+  export PATH="/home/djs/Code/video_transcoding:$PATH"
+  export PATH="/home/djs/Code/other_video_transcoding:$PATH"
 fi
 
 pbjq() { pbpaste|jq; }
