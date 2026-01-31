@@ -120,6 +120,10 @@ systemctl enable bluetooth
 # enable trim (ssd)
 systemctl enable fstrim.timer
 
+# sync clock
+timedatectl set-ntp true
+
+
 # reboot!
 exit
 umount -R /mnt
