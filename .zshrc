@@ -83,6 +83,10 @@ venv() {
   source "$venv_path/bin/activate"
 }
 
+uuid() {
+  uuidgen | tr -d '\n' | tr '[:upper:]' '[:lower:]'
+}
+
 alias AEMU=$ANDROID_SDK_HOME/emulator/emulator
 
 source <(fzf --zsh)
