@@ -87,6 +87,10 @@ uuid() {
   uuidgen | tr -d '\n' | tr '[:upper:]' '[:lower:]'
 }
 
+isodate() {
+  date -u +"%Y-%m-%dT%H:%M:%SZ"
+}
+
 alias AEMU=$ANDROID_SDK_HOME/emulator/emulator
 
 source <(fzf --zsh)
