@@ -88,7 +88,7 @@ uuid() {
 }
 
 isodate() {
-  date -u +"%Y-%m-%dT%H:%M:%SZ"
+  date -u +"%Y-%m-%dT%H.%M.%SZ"
 }
 
 alias AEMU=$ANDROID_SDK_HOME/emulator/emulator
