@@ -42,8 +42,9 @@ let maplocalleader="\\"
 set formatoptions=jcroqlnt
 " Print line number
 set number
-" Relative line numbers
-set relativenumber
+" disable relative line numbers
+set nornu" Relative line numbers
+" set relativenumber
 " Lines of context
 set scrolloff=4
 " Round indent

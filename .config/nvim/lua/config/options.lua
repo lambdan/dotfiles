@@ -6,3 +6,5 @@
 vim.g.ai_cmp = false
 
 vim.g.root_spec = { "lsp", { ".git", "lua", "build.sbt" }, "cwd" }
+
+vim.o.relativenumber = false
