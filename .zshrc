@@ -25,6 +25,7 @@ alias slt=st # sublime text
 tw () { streamlink twitch.tv/$@ best --player mpv;} # twitch viewer
 alias dtiso='node -e "console.log(new Date().toISOString())"' # print iso date
 alias dt=dtiso
+alias week='date +%V'
 alias vim=nvim
 alias minify='node -e "console.log(JSON.stringify(JSON.parse(require(\"fs\").readFileSync(0,\"utf-8\"))));"'
 
@@ -32,7 +33,7 @@ alias minify='node -e "console.log(JSON.stringify(JSON.parse(require(\"fs\").rea
 if [[ "$(uname)" == "Darwin" ]]; then
 	# macOS specific
 	alias iclddrv='cd /Users/djs/Library/Mobile Documents/com~apple~CloudDocs'
-	export PATH="$(brew --prefix)/opt/python@3.11/libexec/bin:$PATH"
+	#export PATH="$(brew --prefix)/opt/python@3.11/libexec/bin:$PATH"
 	export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
   export JAVA_HOME=/opt/homebrew/opt/openjdk@21/
 fi
